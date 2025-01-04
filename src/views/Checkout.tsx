@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import TopFooter from "../components/TopFooter";
 import MiddleFooter from "../components/MiddleFooter";
 import BottomFooter from "../components/BottomFooter";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from "yup";
 import PageSubHeading from "../components/PageSubHeading";
 import GenericcCar from "../assets/images/GenericCar.png";
@@ -75,6 +75,11 @@ export const Checkout = () => {
                             required
                             value={values.firstName}
                           />
+                          <ErrorMessage
+                            name="firstName"
+                            className="text-red-500 text-sm"
+                            component={"div"}
+                          />
                         </div>
                         <div className="mb-1">
                           <label className="text-sm font-semibold text-gray-900 dark:text-gray-300">
@@ -86,6 +91,11 @@ export const Checkout = () => {
                             placeholder="Last Name"
                             required
                             value={values.lastName}
+                          />
+                          <ErrorMessage
+                            name="lastName"
+                            className="text-red-500 text-sm"
+                            component={"div"}
                           />
                         </div>
                         <div className="mb-1 col-span-2">
@@ -99,6 +109,11 @@ export const Checkout = () => {
                             placeholder="Address"
                             required
                             value={values.address}
+                          />
+                          <ErrorMessage
+                            name="address"
+                            className="text-red-500 text-sm"
+                            component={"div"}
                           />
                         </div>
                       </div>

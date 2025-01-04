@@ -1,12 +1,80 @@
 import * as Yup from "yup";
 import { Formik, Form as FormikForm, ErrorMessage } from "formik";
 import OtpInput from "react-otp-input";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHook";
+import { useLocation, useNavigate } from "react-router";
+import axios from "axios";
+import { useState } from "react";
 
 function EnterPasswordRecoveryCode() {
+  const baseUrl = process.env.REACT_APP_API_BASE_URL;
+  const userInfoData = useAppSelector(
+    (state) => "" //state.userInfo.loggedInUserData
+  );
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const email = location.state?.email;
+
+  const recoverCodeHandler = async (
+    values: any,
+    setSubmitting: any,
+    setErrors: any
+  ) => {
+    values = {
+      ...values,
+      ...{ email },
+    };
+    try {
+      const res = await axios.post(
+        `${baseUrl}/api/confirm-password-reset-token`,
+        values,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+          timeout: 30000,
+        }
+      );
+      const resData = res.data;
+      console.log(resData);
+      if (resData.success === false) {
+        if (resData.errors !== undefined) {
+          setErrors(resData.errors);
+        } else {
+          //output the error message
+        }
+      } else {
+        navigate("/change-password", {
+          state: {
+            token: values.token,
+            email,
+          },
+        });
+      }
+    } catch (e: any) {
+      console.log(e);
+      if (e.code === "ECONNABORTED") {
+        setSubmitting(false);
+      }
+      if (e?.response?.data !== undefined) {
+        const errorData = e.response.data;
+        setErrors(errorData.errors);
+        if (errorData.message === "Unauthenticated.") {
+          // dispatch(deleteUserData());
+        }
+      }
+    }
+    setSubmitting(false);
+  };
+
+  const [token, setToken] = useState("");
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        {/* <a
+        <a
           href="/#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
@@ -16,7 +84,7 @@ function EnterPasswordRecoveryCode() {
             alt="logo"
           />
           Flowbite
-        </a> */}
+        </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -35,38 +103,34 @@ function EnterPasswordRecoveryCode() {
               })}
               onSubmit={(values, { setSubmitting, setErrors }) => {
                 console.log(values);
-                setSubmitting(false);
-                // recoverCodeHandler(values, setSubmitting, setErrors);
+                //  recoverCodeHandler(values, setSubmitting, setErrors);
               }}
             >
               {({ isSubmitting, setFieldValue }) => (
-                <FormikForm
-                  className="space-y-3 md:space-y-3"
-                  method="POST"
-                  id="recover-password-form-school"
-                  name="recover-password-form-school"
-                >
+                <FormikForm className="space-y-3 md:space-y-3" method="POST">
                   <div>
                     <label
                       htmlFor="email"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Your email
+                      Recovery Code
                     </label>
                     <OtpInput
-                      // value={token}
+                      value={token}
                       onChange={(val) => {
-                        // setToken(val);
-                        // setFieldValue("token", val);
+                        setToken(val);
+                        setFieldValue("token", val);
                       }}
                       numInputs={5}
                       renderSeparator={<span>-</span>}
-                      renderInput={(props) => <input {...props} />}
+                      renderInput={(props) => (
+                        <input {...props} className="focus:border-yellow-300" />
+                      )}
                       inputStyle={{
                         width: "3em",
                         height: "3em",
                         border: "none",
-                        borderBottom: "2px solid #0F1925",
+                        borderBottom: "2px solid #fcd34d",
                       }}
                       containerStyle={{
                         justifyContent: "center",

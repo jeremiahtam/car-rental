@@ -9,13 +9,14 @@ import { Checkout } from "./views/Checkout";
 import Login from "./views/user-portal/auth/Login";
 import { Signup } from "./views/user-portal/auth/Signup";
 import { Bookings } from "./views/user-portal/Bookings";
-import { ProfilePage } from "./views/user-portal/ProfilePage";
+import { SettingsPage } from "./views/user-portal/SettingsPage";
 import { AdminBookings } from "./views/admin-portal/AdminBookings";
 import { AdminCars } from "./views/admin-portal/AdminCars";
 import { AdminDrivers } from "./views/admin-portal/AdminDrivers";
 import AdminLogin from "./views/admin-portal/auth/AdminLogin";
 import EnterPasswordRecoveryCode from "./views/user-portal/auth/EnterPasswordRecoveryCode";
 import RecoverPassword from "./views/user-portal/auth/RecoverPassword";
+import ChangePassword from "./views/user-portal/auth/ChangePassword";
 
 function App() {
   return (
@@ -35,19 +36,20 @@ function App() {
         {/** for users */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard">
-          <Route path="/dashboard" element={<Bookings />} />
-          <Route path="/dashboard/bookings" element={<Bookings />} />
-          <Route path="/dashboard/profile" element={<ProfilePage />} />
-        </Route>
-
-        {/** for admin */}
-        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route
           path="/enter-recovery-code"
           element={<EnterPasswordRecoveryCode />}
         />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/dashboard">
+          <Route path="/dashboard" element={<Bookings />} />
+          <Route path="/dashboard/bookings" element={<Bookings />} />
+          <Route path="/dashboard/settings" element={<SettingsPage />} />
+        </Route>
+
+        {/** for admin */}
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/dashboard">
           <Route path="/dashboard" element={<AdminBookings />} />
           <Route path="/dashboard/admin-bookings" element={<AdminBookings />} />

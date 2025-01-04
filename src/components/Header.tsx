@@ -4,7 +4,7 @@ import { PiPhoneCallLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router";
 import { useAppSelector } from "../hooks/reduxHook";
 import { mainMenu } from "../data/menuItems";
-import { Avatar, Dropdown } from "flowbite-react";
+import { UserProfileDropDownMenu } from "./UserProfileDropDownMenu";
 
 interface HeaderProps {
   handleSidenav: () => void;
@@ -74,22 +74,7 @@ function Header(props: HeaderProps) {
               </Link>
             </div>
           </div>
-          <Dropdown label={<Avatar rounded />} arrowIcon={false} inline>
-            <Dropdown.Header>
-              <span className="block text-sm">Bonnie Green</span>
-              <span className="block truncate text-sm font-medium">
-                name@flowbite.com
-              </span>
-            </Dropdown.Header>
-            <Link to={"/dashboard/bookings"}>
-              <Dropdown.Item>Bookings</Dropdown.Item>
-            </Link>
-            <Link to={"/dashboard/profile"}>
-              <Dropdown.Item>Profile</Dropdown.Item>
-            </Link>
-            <Dropdown.Divider />
-            <Dropdown.Item>Sign out</Dropdown.Item>
-          </Dropdown>
+          <UserProfileDropDownMenu />
           <div className="flex flex-row visible md:hidden ms-2 items-center">
             <button
               type="button"
