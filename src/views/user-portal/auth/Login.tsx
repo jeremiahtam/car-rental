@@ -5,12 +5,12 @@ import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHook";
 import { Spinner } from "flowbite-react";
+import { fetchUser } from "../../../api/userApi";
+import { deleteUserToken, saveUserToken } from "../../../store/user/userSlice";
 
 function Login() {
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
-  const userInfoData = useAppSelector(
-    (state) => "" //state.userInfo.loggedInUserData
-  );
+  const userInfo = useAppSelector((state) => state.userInfo);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Login() {
     setErrors: any
   ) => {
     try {
-      const res = await axios.post(`${baseUrl}/api/school-login`, values, {
+      const res = await axios.post(`${baseUrl}/api/user-login`, values, {
         headers: {
           Accept: "application/json",
         },
@@ -31,16 +31,8 @@ function Login() {
       });
       const resData = res.data;
       console.log(resData);
-      if (resData.success === false) {
-        if (resData.errors !== undefined) {
-          setErrors(resData.errors);
-        } else {
-        }
-        setLoginFeedback(resData.message);
-      } else {
-        // dispatch(insertUserData(resData.data.token));
-        navigate("/dashboard");
-      }
+      dispatch(saveUserToken(resData.data.token));
+      navigate("/dashboard/bookings");
     } catch (e: any) {
       console.log(e);
       if (e.code === "ECONNABORTED") {
@@ -50,23 +42,25 @@ function Login() {
         const errorData = e.response.data;
         setErrors(errorData.errors);
         if (errorData.message === "Unauthenticated.") {
-          // dispatch(deleteUserData());
+          dispatch(deleteUserToken());
         }
+        setLoginFeedback(errorData.message);
       }
     }
     setSubmitting(false);
   };
-  useEffect(() => {
-    // dispatch(loadUserData());
-  }, []);
 
+  /** */
   useEffect(() => {
-    // if (userInfoData !== null && userInfoData !== undefined) {
-    //   if (userInfoData.userType == "school") {
-    //     navigate("/dashboard");
-    //   }
-    // }
-  }, [userInfoData]);
+    dispatch(fetchUser());
+  });
+
+  /**  */
+  useEffect(() => {
+    if (userInfo.active) {
+      navigate("/dashboard/bookings");
+    }
+  }, [userInfo.status, navigate, userInfo.active]);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

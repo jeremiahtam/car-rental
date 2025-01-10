@@ -10,30 +10,65 @@ export const UserViewRideDetailsModal = (
 ) => {
   return (
     <>
-      <Modal dismissible show={props.openModal} onClose={props.setOpenModal}>
-        <Modal.Header>Terms of Service</Modal.Header>
-        <Modal.Body>
-          <div className="space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new
-              consumer privacy laws for its citizens, companies around the world
-              are updating their terms of service agreements to comply.
-            </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              The European Union’s General Data Protection Regulation (G.D.P.R.)
-              goes into effect on May 25 and is meant to ensure a common set of
-              data rights in the European Union. It requires organizations to
-              notify users as soon as possible of high-risk data breaches that
-              could personally affect them.
-            </p>
+      <Modal
+        dismissible
+        show={props.openModal}
+        onClose={props.setOpenModal}
+        size="lg"
+        className="max-h-full!"
+      >
+        <Modal.Header className="text-sm">Journey Details</Modal.Header>
+        <div className="p-4 md:p-5 space-y-4">
+          <div className="space-y-2">
+            <div className="text-base leading-relaxed p-2 rounded-lg border-solid border-[1px] border-gray-200">
+              <div className="text-sm text-gray-400">Driver</div>
+              <div className="text-sm font-semibold">Peter Mark</div>
+            </div>
+
+            <div className="text-base leading-relaxed p-2 rounded-lg border-solid border-[1px] border-gray-200">
+              <div className="text-sm text-gray-400">From</div>
+              <div className="text-sm font-semibold">
+                23, Choba Road, Rivers State
+              </div>
+            </div>
+            <div className="text-base leading-relaxed p-2 rounded-lg border-solid border-[1px] border-gray-200">
+              <div className="text-sm text-gray-400">To</div>
+              <div className="text-sm font-semibold">
+                23, Choba Road, Rivers State
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center space-x-2">
+              <div className="md:basis-1/2 text-base leading-relaxed p-2 rounded-lg border-solid border-[1px] border-gray-200">
+                <div className="text-sm text-gray-400">Start Date</div>
+                <div className="text-sm font-semibold">23rd November, 2021</div>
+              </div>
+              <div className="md:basis-1/2 text-base leading-relaxed p-2 rounded-lg border-solid border-[1px] border-gray-200">
+                <div className="text-sm text-gray-400">End Date</div>
+                <div className="text-sm font-semibold">23rd November, 2021</div>
+              </div>
+            </div>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.setOpenModal}>I accept</Button>
-          <Button color="gray" onClick={props.setOpenModal}>
-            Decline
-          </Button>
-        </Modal.Footer>
+          <div className="my-4">
+            <span className="text-sm text-yellow-900 bg-yellow-50 p-3 rounded-lg">
+              NGN 200,000.00
+            </span>
+          </div>
+        </div>
+        {/* <Modal.Footer>
+          <button
+            type="button"
+            className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+          >
+            Proceed
+          </button>
+          <button
+            type="button"
+            className="text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
+            onClick={props.setOpenModal}
+          >
+            Cancel
+          </button>
+        </Modal.Footer> */}
       </Modal>
     </>
   );

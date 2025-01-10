@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import cartReducer from './cart/cartSlice'
+import userInfoReducer from './user/userSlice'
 import {
   persistStore,
   persistReducer,
@@ -12,7 +13,7 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-/** persistor configuration */
+/** persistor configuration: save reducer in localStorage*/
 const persistConfig = {
   key: 'root',
   version: 1,
@@ -22,6 +23,7 @@ const persistConfig = {
 /** rootReducer containing all reducers */
 const rootReducer = combineReducers({
   cart: cartReducer,
+  userInfo: userInfoReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

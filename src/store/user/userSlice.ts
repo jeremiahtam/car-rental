@@ -1,45 +1,68 @@
-import { createAction, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { PURGE } from 'redux-persist'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { fetchUser } from '../../api/userApi'
+
 /** custom action to clear all store data */
 export const revertAll = createAction('CLEAR_ALL_DATA')
 
-
 interface UserStateType {
-  user: null | { name: string, email: string, profilePic: string }
+  name: string, email: string, profilePic: string
 }
 
-const initialState: UserStateType = {
+interface UserInfoStateType {
+  user: null | UserStateType
+  status: 'idle' | 'pending' | 'succeeded' | 'failed'
+  active: boolean
+  errorMessage?: string
+}
+
+const initialState: UserInfoStateType = {
   user: null,
+  status: 'idle',
+  active: false,
+  errorMessage: ''
 }
 
-const cartSlice = createSlice({
-  name: 'cart',
+const userInfoSlice = createSlice({
+  name: 'userInfo',
   initialState,
   reducers: {
-    loadUser(state, action: PayloadAction) {
-
+    /** insert user data to localStorage when logged in */
+    saveUserToken(state, action: PayloadAction<UserStateType>) {
+      const jsonValue = action.payload// JSON.stringify(data)
+      localStorage.setItem('1ux', JSON.stringify(jsonValue))
+      state.user = jsonValue
+      state.active = true
     },
-    insertUser(state, action) {
-
+    deleteUserToken(state) {
+      localStorage.removeItem('1ux')
+      state.user = null
+      state.active = false
     },
-    deleteUser(state) {
-
-    },
-    updateProfilePic(state) {
-
+    updateProfilePic(state, action: PayloadAction<UserStateType>) {
+      if (state.user) {
+        state.user.profilePic = action.payload.profilePic
+      }
     }
   },
   // Create extraReducer, that would wourk on calling the purge after an action
   extraReducers: (builder) => {
-    builder.addCase(PURGE, (state) => {
-      state.user = initialState.user;
-    });
     builder.addCase(revertAll, () => {
       return initialState
     })
+      .addCase(fetchUser.pending, (state, action) => {
+        state.status = 'pending'
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.active = true
+        state.user = action.payload
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.status = 'failed'
+        state.errorMessage = action.error.message ?? 'Unknown Error'
+      })
   }
 })
 
-export const { loadUser, insertUser, deleteUser, updateProfilePic } = cartSlice.actions
-export default cartSlice.reducer
+export const { saveUserToken, deleteUserToken } = userInfoSlice.actions
+export default userInfoSlice.reducer

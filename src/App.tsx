@@ -17,6 +17,8 @@ import AdminLogin from "./views/admin-portal/auth/AdminLogin";
 import EnterPasswordRecoveryCode from "./views/user-portal/auth/EnterPasswordRecoveryCode";
 import RecoverPassword from "./views/user-portal/auth/RecoverPassword";
 import ChangePassword from "./views/user-portal/auth/ChangePassword";
+import { AdminDashboard } from "./views/admin-portal/AdminDashboard";
+import { UserDashboard } from "./views/UserDashboard";
 
 function App() {
   return (
@@ -42,7 +44,7 @@ function App() {
           element={<EnterPasswordRecoveryCode />}
         />
         <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/dashboard">
+        <Route path="/dashboard" element={<UserDashboard />}>
           <Route path="/dashboard" element={<Bookings />} />
           <Route path="/dashboard/bookings" element={<Bookings />} />
           <Route path="/dashboard/settings" element={<SettingsPage />} />
@@ -50,12 +52,17 @@ function App() {
 
         {/** for admin */}
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/dashboard">
-          <Route path="/dashboard" element={<AdminBookings />} />
-          <Route path="/dashboard/admin-bookings" element={<AdminBookings />} />
-          <Route path="/dashboard/admin-cars" element={<AdminCars />} />
-          <Route path="/dashboard/admin-drivers" element={<AdminDrivers />} />
-        </Route>
+        {false && (
+          <Route path="/dashboard" element={<AdminDashboard />}>
+            <Route path="/dashboard" element={<AdminBookings />} />
+            <Route
+              path="/dashboard/admin-bookings"
+              element={<AdminBookings />}
+            />
+            <Route path="/dashboard/admin-cars" element={<AdminCars />} />
+            <Route path="/dashboard/admin-drivers" element={<AdminDrivers />} />
+          </Route>
+        )}
       </Routes>
     </BrowserRouter>
   );

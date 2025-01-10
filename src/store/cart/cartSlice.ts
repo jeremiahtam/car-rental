@@ -49,8 +49,8 @@ const cartSlice = createSlice({
       state.totalAmount = total
     }
   },
-  // Create extraReducer, that would wourk on calling the purge after an action
   extraReducers: (builder) => {
+    // Create extraReducer, that would wourk on calling the purge after an action
     builder.addCase(PURGE, (state) => {
       state.items = initialState.items;
       state.totalAmount = initialState.totalAmount;
