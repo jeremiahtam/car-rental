@@ -70,7 +70,11 @@ export const BookCarForm = (props: BookCarFormProps) => {
     /* Get waiting time cost*/
     let waitingCost = 0;
     if (roundTrip) {
-      waitingCost = amountPerWaitingDay(pickupDate, returnTripDate, props.carInfo.waitAmountPerHour);
+      waitingCost = amountPerWaitingDay(
+        pickupDate,
+        returnTripDate,
+        props.carInfo.waitAmountPerHour
+      );
     }
     let fare = estimatedFare(distance, props.carInfo.costPerMeter);
     if (roundTrip) {
@@ -153,7 +157,7 @@ export const BookCarForm = (props: BookCarFormProps) => {
                   <div className="text-sm text-gray-500 mb-2">
                     Pickup address
                   </div>
-                  <input
+                  <Field
                     name="pickupLocation"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="e.g. 22, Lagos Street"
@@ -214,7 +218,9 @@ export const BookCarForm = (props: BookCarFormProps) => {
                     name="pickupDate"
                     disabled={carInCart ? true : false}
                     selected={values.pickupDate}
-                    onChange={(date: any) => setFieldValue("pickupDate", date)}
+                    onChange={(date: Date | null) =>
+                      setFieldValue("pickupDate", date)
+                    }
                     showTimeInput
                     timeInputLabel="Time:"
                     startDate={new Date()}
@@ -233,7 +239,7 @@ export const BookCarForm = (props: BookCarFormProps) => {
                 <div className="mb-1 col-span-2">
                   <div className="flex">
                     <div className="flex items-center h-5">
-                      <input
+                      <Field
                         type="checkbox"
                         name="roundTrip"
                         disabled={carInCart ? true : false}
@@ -278,7 +284,7 @@ export const BookCarForm = (props: BookCarFormProps) => {
                       name="returnTripDate"
                       disabled={carInCart ? true : false}
                       selected={values.returnTripDate}
-                      onChange={(date: any) =>
+                      onChange={(date: Date | null) =>
                         setFieldValue("returnTripDate", date)
                       }
                       startDate={new Date()}

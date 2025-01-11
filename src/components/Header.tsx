@@ -15,6 +15,9 @@ function Header(props: HeaderProps) {
   const carsInCart = useAppSelector((state) => state.cart.items);
   const location = useLocation();
 
+  const userInfo = useAppSelector((state) => state.userInfo);
+  const adminInfo = useAppSelector((state) => state.adminInfo);
+
   return (
     <div className="px-4 lg:px-0">
       <div className="container mx-auto flex justify-between py-4">
@@ -42,17 +45,6 @@ function Header(props: HeaderProps) {
           )}
         </div>
         <div className="flex flex-row items-center">
-          <div className="flex flex-row items-center">
-            <Link to={""} className="text-sm font-semibold hover:underline">
-              Signup
-            </Link>
-            <button
-              type="button"
-              className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5 ms-2 dark:focus:ring-yellow-900"
-            >
-              Login
-            </button>
-          </div>
           <div className="p-4 relative">
             <Link to={"/checkout"}>
               <FaOpencart size={22} className="text-teal-700" />
@@ -65,7 +57,25 @@ function Header(props: HeaderProps) {
               )}
             </Link>
           </div>
-          <div className="md:flex flex-row items-center hidden md:visible">
+          {userInfo && (
+            <div className="flex flex-row items-center">
+              <Link
+                to={"/signup"}
+                className="text-sm font-semibold hover:underline"
+              >
+                Signup
+              </Link>
+              <Link
+                to={"/login"}
+                type="button"
+                className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1.5 ms-2 dark:focus:ring-yellow-900"
+              >
+                Login
+              </Link>
+            </div>
+          )}
+
+          {/* <div className="md:flex flex-row items-center hidden md:visible">
             <PiPhoneCallLight size={30} className="text-yellow-400" />
             <div className="ml-2">
               <div className="text-gray-600 font-thin text-sm">Need Help?</div>
@@ -73,8 +83,8 @@ function Header(props: HeaderProps) {
                 +21687879736
               </Link>
             </div>
-          </div>
-          <UserProfileDropDownMenu />
+          </div> */}
+          {(userInfo.active || adminInfo.active) && <UserProfileDropDownMenu />}
           <div className="flex flex-row visible md:hidden ms-2 items-center">
             <button
               type="button"

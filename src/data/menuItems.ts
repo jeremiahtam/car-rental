@@ -16,3 +16,8 @@ export const userPortalMenu = [
   { name: "Bookings", link: "/dashboard/bookings", icon: PiBookOpenTextThin },
   { name: "Settings", link: "/dashboard/settings", icon: BsGear },
 ];
+
+export const adminPortalMenu = [
+  { name: "Bookings", link: "/admin-dashboard/bookings", icon: PiBookOpenTextThin },
+  { name: "Settings", link: "/admin-dashboard/settings", icon: BsGear },
+];

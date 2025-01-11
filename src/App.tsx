@@ -35,7 +35,7 @@ function App() {
         </Route>
         <Route path="/contact-us" element={<Contact />} />
 
-        {/** for users */}
+        {/** Users  Section */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
@@ -50,19 +50,20 @@ function App() {
           <Route path="/dashboard/settings" element={<SettingsPage />} />
         </Route>
 
-        {/** for admin */}
+        {/** Admin Section */}
         <Route path="/admin-login" element={<AdminLogin />} />
-        {false && (
-          <Route path="/dashboard" element={<AdminDashboard />}>
-            <Route path="/dashboard" element={<AdminBookings />} />
-            <Route
-              path="/dashboard/admin-bookings"
-              element={<AdminBookings />}
-            />
-            <Route path="/dashboard/admin-cars" element={<AdminCars />} />
-            <Route path="/dashboard/admin-drivers" element={<AdminDrivers />} />
-          </Route>
-        )}
+        <Route path="/admin-dashboard" element={<AdminDashboard />}>
+          <Route path="/admin-dashboard" element={<AdminBookings />} />
+          <Route
+            path="/admin-dashboard/admin-bookings"
+            element={<AdminBookings />}
+          />
+          <Route path="/admin-dashboard/admin-cars" element={<AdminCars />} />
+          <Route
+            path="/admin-dashboard/admin-drivers"
+            element={<AdminDrivers />}
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

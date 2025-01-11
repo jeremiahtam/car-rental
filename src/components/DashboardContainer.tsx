@@ -17,12 +17,12 @@ export const DashboardContainer = (props: DashboardContainerProps) => {
       <div className="flex flex-row">
         <PortalSidebarNav />
         <div className="w-full">
-          <div className={`md:ml-64 relative`}>
+          <div className={`md:ml-32 relative`}>
             <PortalHeader
               handleSidenav={handleSidenav}
               isSideNavOpen={isSidenavOpen}
             />
-            <div className="p-4 mt-14">{props.children}</div>
+            <div className="p-4 mt-4">{props.children}</div>
           </div>
         </div>
       </div>

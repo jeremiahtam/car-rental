@@ -5,7 +5,7 @@ import { fetchUser } from '../../api/userApi'
 export const revertAll = createAction('CLEAR_ALL_DATA')
 
 interface UserStateType {
-  name: string, email: string, profilePic: string
+  id: number, name: string, email: string, profilePic: string
 }
 
 interface UserInfoStateType {
@@ -27,16 +27,17 @@ const userInfoSlice = createSlice({
   initialState,
   reducers: {
     /** insert user data to localStorage when logged in */
-    saveUserToken(state, action: PayloadAction<UserStateType>) {
-      const jsonValue = action.payload// JSON.stringify(data)
-      localStorage.setItem('1ux', JSON.stringify(jsonValue))
-      state.user = jsonValue
-      state.active = true
+    saveUserToken(state, action) {
+      const jsonValue = action.payload// JSON.stringify(action.payload)
+      localStorage.setItem('1ux', jsonValue)
     },
     deleteUserToken(state) {
       localStorage.removeItem('1ux')
       state.user = null
       state.active = false
+    },
+    updateUserActiveAccount(state, action: PayloadAction<typeof initialState.active>) {
+      state.active = action.payload
     },
     updateProfilePic(state, action: PayloadAction<UserStateType>) {
       if (state.user) {
@@ -56,6 +57,7 @@ const userInfoSlice = createSlice({
         state.status = 'succeeded'
         state.active = true
         state.user = action.payload
+        console.log(action.payload)
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.status = 'failed'
@@ -64,5 +66,5 @@ const userInfoSlice = createSlice({
   }
 })
 
-export const { saveUserToken, deleteUserToken } = userInfoSlice.actions
+export const { saveUserToken, deleteUserToken, updateUserActiveAccount, updateProfilePic } = userInfoSlice.actions
 export default userInfoSlice.reducer

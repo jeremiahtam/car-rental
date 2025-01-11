@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Formik, Form as FormikForm, ErrorMessage } from "formik";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import { Formik, Form as FormikForm, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
@@ -52,15 +52,17 @@ export const Signup = () => {
 
   /** */
   useEffect(() => {
-    dispatch(fetchUser());
-  });
+    // if (userInfo.status === "idle") {
+      dispatch(fetchUser());
+    // }
+  }, []);
 
   /**  */
   useEffect(() => {
     if (userInfo.active) {
       navigate("/dashboard/bookings");
     }
-  }, [userInfo.status, navigate, userInfo.active]);
+  }, [userInfo]);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -85,19 +87,21 @@ export const Signup = () => {
               <div className="text-sm text-red-600">{signupFeedback}</div>
             )}
             <Formik
+              enableReinitialize
               initialValues={{
                 name: "",
                 email: "",
                 phoneNumber: "",
                 password: "",
                 confirmPassword: "",
+                terms: false,
               }}
-              validationSchema={Yup.object({
+              validationSchema={Yup.object().shape({
                 name: Yup.string().required("Full name cannot be empty!"),
                 email: Yup.string()
                   .email("Invalid email address")
                   .required("Email cannot be empty!"),
-                phoneNumber: Yup.string().required("Email cannot be empty!"),
+                phoneNumber: Yup.string().required("Phone number cannot be empty!"),
                 password: Yup.string()
                   .max(20, "Must be 20 characters or less")
                   .min(8, "Must be more than eight characters")
@@ -112,18 +116,18 @@ export const Signup = () => {
                       return this.parent.password === value;
                     }
                   ),
+                terms: Yup.boolean().oneOf(
+                  [true],
+                  "You must accept the terms and conditions"
+                ),
               })}
               onSubmit={(values, { setSubmitting, setErrors }) => {
+                console.log(values);
                 signupHandler(values, setSubmitting, setErrors);
               }}
             >
-              {({ isSubmitting }) => (
-                <FormikForm
-                  method="POST"
-                  id="signup-form-school"
-                  name="signup-form-school"
-                  className="space-y-3 md:space-y-3"
-                >
+              {({ isSubmitting, setFieldValue, values }) => (
+                <FormikForm className="space-y-3 md:space-y-3">
                   <div className="">
                     <label
                       htmlFor="name"
@@ -131,12 +135,13 @@ export const Signup = () => {
                     >
                       Name
                     </label>
-                    <input
+                    <Field
                       type="text"
                       name="name"
                       id="name"
+                      autoComplete="name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Luke"
+                      placeholder="Mark J. Smith"
                     />
                     <ErrorMessage
                       name="name"
@@ -152,10 +157,11 @@ export const Signup = () => {
                       >
                         Your email
                       </label>
-                      <input
+                      <Field
                         type="email"
                         name="email"
                         id="email"
+                        autoComplete="email"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="name@company.com"
                       />
@@ -172,12 +178,13 @@ export const Signup = () => {
                       >
                         Phone Number
                       </label>
-                      <input
+                      <Field
                         type="tel"
                         name="phoneNumber"
                         id="phoneNumber"
+                        autoComplete="tel"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="name@company.com"
+                        placeholder="08032240287"
                       />
                       <ErrorMessage
                         name="phoneNumber"
@@ -194,11 +201,12 @@ export const Signup = () => {
                       >
                         Password
                       </label>
-                      <input
+                      <Field
                         type="password"
                         name="password"
                         id="password"
                         placeholder="••••••••"
+                        autoComplete="new-password"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                       <ErrorMessage
@@ -214,11 +222,12 @@ export const Signup = () => {
                       >
                         Confirm password
                       </label>
-                      <input
-                        type="confirmPassword"
+                      <Field
+                        type="password"
                         name="confirmPassword"
                         id="confirmPassword"
                         placeholder="••••••••"
+                        autoComplete="new-password"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                       <ErrorMessage
@@ -228,29 +237,40 @@ export const Signup = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                      <input
-                        id="terms"
-                        aria-describedby="terms"
-                        type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      />
-                    </div>
-                    <div className="ml-3 text-sm">
-                      <label
-                        htmlFor="terms"
-                        className="font-light text-gray-500 dark:text-gray-300"
-                      >
-                        I accept the{" "}
-                        <a
-                          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                          href="/#"
+                  <div>
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <Field
+                          id="terms"
+                          aria-describedby="terms"
+                          type="checkbox"
+                          checked={values.terms}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            setFieldValue("terms", e.target.checked)
+                          }
+                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label
+                          htmlFor="terms"
+                          className="font-light text-gray-500 dark:text-gray-300"
                         >
-                          Terms and Conditions
-                        </a>
-                      </label>
+                          I accept the{" "}
+                          <a
+                            className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                            href="/#"
+                          >
+                            Terms and Conditions
+                          </a>
+                        </label>
+                      </div>
                     </div>
+                    <ErrorMessage
+                      name="terms"
+                      className="text-red-500 text-sm"
+                      component={"div"}
+                    />
                   </div>
                   <button
                     type="submit"
