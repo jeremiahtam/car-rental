@@ -96,44 +96,36 @@ function CarDetails() {
             Technical Specification
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {carInfo?.carSpecifications && (
+            {carInfo && (
               <>
                 <div className="bg-slate-100 hover:bg-slate-200 rounded-md p-6">
                   <TbAutomaticGearbox size={24} className="text-pink-500" />
                   <div className="font-semibold">Gear Type</div>
-                  <div className="text-gray-700">
-                    {carInfo?.carSpecifications.gearType}
-                  </div>
+                  <div className="text-gray-700">{carInfo?.gearType}</div>
                 </div>
                 <div className="bg-slate-100 hover:bg-slate-200 rounded-md p-6">
                   <LuFuel size={24} className="text-pink-500" />
                   <div className="font-semibold">Fuel Type</div>
-                  <div className="text-gray-700">
-                    {carInfo?.carSpecifications.fuelType}
-                  </div>
+                  <div className="text-gray-700">{carInfo?.fuelType}</div>
                 </div>
                 <div className="bg-slate-100 hover:bg-slate-200 rounded-md p-6">
                   <PiSeatThin size={24} className="text-pink-500" />
                   <div className="font-semibold">Number of seats</div>
                   <div className="text-gray-700 text-wrap">
-                    {carInfo?.carSpecifications.seats}
+                    {carInfo?.seats}
                   </div>
                 </div>
                 <div className="bg-slate-100 hover:bg-slate-200 rounded-md p-6">
                   <TbAirConditioning size={24} className="text-pink-500" />
                   <div className="font-semibold">Airconditioner</div>
                   <div className="text-gray-700">
-                    {carInfo?.carSpecifications.airCondition
-                      ? "Available"
-                      : "Not vailable"}
+                    {carInfo?.airCondition ? "Available" : "Not vailable"}
                   </div>
                 </div>
                 <div className="bg-slate-100 hover:bg-slate-200 rounded-md p-6">
                   <GiCarSeat size={24} className="text-pink-500" />
                   <div className="font-semibold">Air Bags</div>
-                  <div className="text-gray-700">
-                    {carInfo?.carSpecifications.airbags}
-                  </div>
+                  <div className="text-gray-700">{carInfo?.airbags}</div>
                 </div>
               </>
             )}
@@ -158,7 +150,11 @@ function CarDetails() {
                 id={item.id}
                 model={item.model}
                 slug={item.slug}
-                carSpecifications={item.carSpecifications}
+                airCondition={item.airCondition}
+                airbags={item.airbags}
+                fuelType={item.fuelType}
+                gearType={item.gearType}
+                seats={item.seats}
                 brand={item.brand}
                 costPerMeter={item.costPerMeter}
                 waitAmountPerHour={item.waitAmountPerHour}

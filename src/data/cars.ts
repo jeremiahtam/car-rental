@@ -14,13 +14,11 @@ export const cars: CarProps[] = [
     images: [GenericCar, GenericCar2],
     costPerMeter: 0.76,
     waitAmountPerHour: 1200,
-    carSpecifications: {
-      airCondition: true,
-      gearType: "Automatic",
-      seats: 4,
-      fuelType: "Diesel",
-      airbags: 2
-    },
+    airCondition: true,
+    gearType: "Automatic",
+    seats: 4,
+    fuelType: "Diesel",
+    airbags: 2,
     bookedDates: []
   },
   {
@@ -31,13 +29,11 @@ export const cars: CarProps[] = [
     images: [GenericCar, GenericCar3],
     costPerMeter: 0.8,
     waitAmountPerHour: 1500,
-    carSpecifications: {
-      airCondition: true,
-      gearType: "Automatic",
-      seats: 4,
-      fuelType: "Diesel",
-      airbags: 2
-    },
+    airCondition: true,
+    gearType: "Automatic",
+    seats: 4,
+    fuelType: "Diesel",
+    airbags: 2,
     bookedDates: []
   },
   {
@@ -48,13 +44,11 @@ export const cars: CarProps[] = [
     images: [GenericCar, GenericCar2, GenericCar3],
     costPerMeter: 0.78,
     waitAmountPerHour: 800,
-    carSpecifications: {
-      airCondition: true,
-      gearType: "Automatic",
-      seats: 4,
-      fuelType: "Diesel",
-      airbags: 2
-    },
+    airCondition: true,
+    gearType: "Automatic",
+    seats: 4,
+    fuelType: "Diesel",
+    airbags: 2,
     bookedDates: []
   },
 ];

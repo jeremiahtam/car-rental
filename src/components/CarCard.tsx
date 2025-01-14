@@ -28,13 +28,13 @@ function CarCard(props: CarCardProps) {
         <div className="flex flex-row content-center items-center space-x-1">
           <GiGearStickPattern className="text-gray-600" size={16} />
           <div className="text-sm text-gray-600">
-            {props.carSpecifications.gearType}
+            {props.gearType}
           </div>
         </div>
         <div className="flex flex-row content-center items-center space-x-1">
           <PiSnowflakeThin className="text-gray-600" size={16} />
           <div className="text-sm text-gray-600">
-            {props.carSpecifications.airCondition
+            {props.airCondition
               ? "Air Conditioner"
               : "No Air Conditioner"}
           </div>

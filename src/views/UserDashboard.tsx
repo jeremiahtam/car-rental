@@ -3,7 +3,6 @@ import { DashboardContainer } from "../components/DashboardContainer";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { useEffect } from "react";
 import { fetchUser } from "../api/userApi";
-import axios from "axios";
 import { updateAdminActiveAccount } from "../store/admin/adminSlice";
 
 export const UserDashboard = () => {

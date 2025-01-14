@@ -21,7 +21,11 @@ function HomeChooseCar() {
               waitAmountPerHour={item.waitAmountPerHour}
               model={item.model}
               slug={item.slug}
-              carSpecifications={item.carSpecifications}
+              airCondition={item.airCondition}
+              airbags={item.airbags}
+              fuelType={item.fuelType}
+              gearType={item.gearType}
+              seats={item.seats}
               images={item.images}
               bookedDates={item.bookedDates}
             />

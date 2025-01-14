@@ -109,7 +109,11 @@ function CarsFilter() {
                 id={item.id}
                 model={item.model}
                 slug={item.slug}
-                carSpecifications={item.carSpecifications}
+                airCondition={item.airCondition}
+                airbags={item.airbags}
+                fuelType={item.fuelType}
+                gearType={item.gearType}
+                seats={item.seats}
                 brand={item.brand}
                 costPerMeter={item.costPerMeter}
                 waitAmountPerHour={item.waitAmountPerHour}
