@@ -8,7 +8,7 @@ import { Spinner } from "flowbite-react";
 import { saveUserToken } from "../../../store/user/userSlice";
 import { fetchUser } from "../../../api/userApi";
 import PhoneInput from "react-phone-number-input/input";
-import { Country, type PhoneNumber } from "react-phone-number-input";
+import { Country } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
 export const Signup = () => {
@@ -123,7 +123,10 @@ export const Signup = () => {
                 terms: false,
               }}
               validationSchema={Yup.object().shape({
-                name: Yup.string().required("Full name cannot be empty!"),
+                name: Yup.string()
+                  .required("Full name cannot be empty!")
+                  .min(2, "Too few characters")
+                  .max(70, "Exceeded character limits"),
                 email: Yup.string()
                   .email("Invalid email address")
                   .required("Email cannot be empty!"),
