@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Formik, Form as FormikForm, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router";
@@ -7,6 +7,9 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHook";
 import { Spinner } from "flowbite-react";
 import { saveUserToken } from "../../../store/user/userSlice";
 import { fetchUser } from "../../../api/userApi";
+import PhoneInput from "react-phone-number-input/input";
+import { Country, type PhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 export const Signup = () => {
   const baseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -14,6 +17,11 @@ export const Signup = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+
+  const [phoneNumberValue, setPhoneNumberValue] = useState<string>("");
+  const [countryCode, setCountryCode] = useState<Country | undefined>(
+    undefined
+  );
 
   const [signupFeedback, setSignupFeedback] = useState<null | string>(null);
 
@@ -52,9 +60,7 @@ export const Signup = () => {
 
   /** */
   useEffect(() => {
-    // if (userInfo.status === "idle") {
-      dispatch(fetchUser());
-    // }
+    dispatch(fetchUser());
   }, []);
 
   /**  */
@@ -63,6 +69,26 @@ export const Signup = () => {
       navigate("/dashboard/bookings");
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    const countryCodeHandler = async () => {
+      try {
+        const res = await axios({
+          method: "get",
+          url: "https://ipapi.co/json/",
+          headers: {
+            Accept: "application/json",
+          },
+        });
+        const resData = res.data;
+        console.log(resData.country_code);
+        setCountryCode(resData.country_code);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    countryCodeHandler();
+  }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -101,7 +127,9 @@ export const Signup = () => {
                 email: Yup.string()
                   .email("Invalid email address")
                   .required("Email cannot be empty!"),
-                phoneNumber: Yup.string().required("Phone number cannot be empty!"),
+                phoneNumber: Yup.string().required(
+                  "Phone number cannot be empty!"
+                ),
                 password: Yup.string()
                   .max(20, "Must be 20 characters or less")
                   .min(8, "Must be more than eight characters")
@@ -178,13 +206,16 @@ export const Signup = () => {
                       >
                         Phone Number
                       </label>
-                      <Field
-                        type="tel"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        autoComplete="tel"
+                      <PhoneInput
+                        defaultCountry={countryCode}
+                        value={phoneNumberValue}
+                        onChange={(val: any) => {
+                          console.log(val);
+                          setFieldValue("phoneNumber", val);
+                          setPhoneNumberValue(val);
+                        }}
+                        placeholder="Phone Number"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="08032240287"
                       />
                       <ErrorMessage
                         name="phoneNumber"

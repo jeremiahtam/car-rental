@@ -7,6 +7,9 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (_, thunkApi) 
   try {
     const storedUserToken = localStorage.getItem('1ux')
     const token = storedUserToken != null ? storedUserToken : null;
+    if (token === null) {
+      return thunkApi.rejectWithValue('No stored token')
+    }
     const res = await axios({
       method: 'get',
       url: `${baseUrl}/api/user-info`,
@@ -30,5 +33,6 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (_, thunkApi) 
       }
       return thunkApi.rejectWithValue(e)
     }
+    return thunkApi.rejectWithValue(e)
   }
 })

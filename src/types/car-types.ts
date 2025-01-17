@@ -1,17 +1,18 @@
 export interface CarProps {
-  id: number;
-  images: string[];
-  brand: string;
-  model: string;
-  slug: string;
-  costPerMeter: number;
-  waitAmountPerHour: number,
-  // carSpecifications: {
-  airCondition: boolean,
-  gearType: string,
-  seats: number,
+  sn?: number
+  id: number
+  images: string[]
+  brand: string
+  model: string
+  slug: string
+  costPerMeter: number
+  waitAmountPerHour: number
+  airCondition: boolean
+  gearType: string
   fuelType: string
+  seats: number
   airbags: number
-  // }
   bookedDates: string[]
+  date?: Date
+  time?: Date
 }

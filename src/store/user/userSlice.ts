@@ -52,6 +52,7 @@ const userInfoSlice = createSlice({
     })
       .addCase(fetchUser.pending, (state, action) => {
         state.status = 'pending'
+        state.active = false
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.status = 'succeeded'
@@ -62,6 +63,7 @@ const userInfoSlice = createSlice({
       .addCase(fetchUser.rejected, (state, action) => {
         state.status = 'failed'
         state.errorMessage = action.error.message ?? 'Unknown Error'
+        state.active = false
       })
   }
 })
